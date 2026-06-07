@@ -91,6 +91,26 @@ Add these secrets to your GitHub repo:
 
 The workflow in [.github/workflows/scrape.yml](.github/workflows/scrape.yml) runs daily at 8 AM Toronto time.
 
+## Auto-push to GitHub
+
+This repo includes a **post-commit hook** that pushes to GitHub automatically after every local commit.
+
+Enable it once (already done if you cloned from this repo after setup):
+
+```bash
+npm run setup:hooks
+```
+
+After that, a normal commit syncs to GitHub:
+
+```bash
+git add .
+git commit -m "your message"
+# → automatically runs git push origin main
+```
+
+If push fails (offline, auth), your commit is still saved locally — run `git push` manually when ready.
+
 ## Project structure
 
 ```

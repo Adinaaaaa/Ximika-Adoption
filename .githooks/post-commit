@@ -1,0 +1,19 @@
+#!/bin/sh
+# Auto-push to GitHub after every successful commit on this machine.
+# Enable once: npm run setup:hooks
+
+branch=$(git symbolic-ref --short HEAD 2>/dev/null) || exit 0
+
+if ! git remote get-url origin >/dev/null 2>&1; then
+  echo "post-commit: no origin remote — skip push"
+  exit 0
+fi
+
+echo "post-commit: pushing ${branch} to origin..."
+if git push origin "$branch" 2>&1; then
+  echo "post-commit: pushed to GitHub ✓"
+else
+  echo "post-commit: push failed (commit is still saved locally). Run: git push"
+fi
+
+exit 0

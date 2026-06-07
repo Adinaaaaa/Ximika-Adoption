@@ -10,6 +10,7 @@
     "dev": "npm run dev -w apps/web",
     "build": "npm run build -w @cat-matcher/shared && npm run build -w apps/web",
     "scrape": "npm run scrape -w scrapers",
-    "lint": "npm run lint -w apps/web"
+    "lint": "npm run lint -w apps/web",
+    "setup:hooks": "git config core.hooksPath .githooks && chmod +x .githooks/post-commit && echo 'Auto-push hook enabled for this repo.'"
   }
 }

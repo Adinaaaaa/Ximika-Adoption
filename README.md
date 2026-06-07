@@ -19,9 +19,11 @@ A personal web app that aggregates adoptable cats from multiple Toronto-area sou
 |---|---|
 | Annex Cat Rescue | HTML scrape |
 | Toronto Humane Society | HTML scrape |
-| Petfinder | Playwright |
+| Toronto Cat Rescue | Adopt-a-Pet shelter feed (Playwright) |
+| Rehome (Adopt-a-Pet) | Private-owner listings near M5S (Playwright) |
+| PetPlace | Playwright |
 | Adopt-a-Pet | Playwright |
-| PetPlace | Playwright (may return empty — logged in status) |
+| Petfinder | Playwright |
 | RescueGroups.org | Free API (optional bonus data) |
 
 ## Quick start

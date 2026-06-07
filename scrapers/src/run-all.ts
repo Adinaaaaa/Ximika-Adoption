@@ -1,14 +1,14 @@
 import dotenv from "dotenv";
 import path from "path";
 
-// Load .env from project root (not scrapers/)
 dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 import type { CatSource } from "@cat-matcher/shared";
 import { scrapeAnnex } from "./annex";
 import { scrapeThs } from "./ths";
+import { scrapeTorontoCatRescue } from "./tcr";
+import { scrapeRehome } from "./rehome";
 import { scrapePetfinder } from "./petfinder";
-import { scrapeAdoptapet } from "./adoptapet";
-import { scrapePetplace } from "./petplace";
+import { scrapeAdoptapet, scrapePetplace } from "./adoptapet";
 import { scrapeRescueGroups } from "./rescuegroups";
 import { upsertCats, deactivateStale, logScrapeRun } from "./db";
 
@@ -17,11 +17,24 @@ type ScraperFn = () => Promise<import("@cat-matcher/shared").CatRecord[]>;
 const SCRAPERS: Record<CatSource, ScraperFn> = {
   annex: scrapeAnnex,
   ths: scrapeThs,
+  tcr: scrapeTorontoCatRescue,
+  rehome: scrapeRehome,
   petfinder: scrapePetfinder,
   adoptapet: scrapeAdoptapet,
   petplace: scrapePetplace,
   rescuegroups: scrapeRescueGroups,
 };
+
+const DEFAULT_SOURCES: CatSource[] = [
+  "annex",
+  "ths",
+  "tcr",
+  "rehome",
+  "petplace",
+  "adoptapet",
+  "petfinder",
+  "rescuegroups",
+];
 
 async function runSource(source: CatSource): Promise<void> {
   console.log(`\n▶ Scraping ${source}...`);
@@ -49,9 +62,7 @@ async function main() {
   const arg = process.argv.find((a) => a.startsWith("--source="));
   const onlySource = arg?.split("=")[1] as CatSource | undefined;
 
-  const sources: CatSource[] = onlySource
-    ? [onlySource]
-    : ["annex", "ths", "rescuegroups", "petfinder", "adoptapet", "petplace"];
+  const sources: CatSource[] = onlySource ? [onlySource] : DEFAULT_SOURCES;
 
   console.log("Cat Adoption Matcher — scrape run");
   console.log(`Sources: ${sources.join(", ")}`);

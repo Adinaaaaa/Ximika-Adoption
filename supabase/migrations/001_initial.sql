@@ -1,7 +1,7 @@
 -- Cat Adoption Matcher schema
 
 CREATE TYPE cat_source AS ENUM (
-  'petfinder', 'adoptapet', 'annex', 'ths', 'petplace', 'rescuegroups'
+  'petfinder', 'adoptapet', 'annex', 'ths', 'tcr', 'rehome', 'petplace', 'rescuegroups'
 );
 
 CREATE TABLE cats (

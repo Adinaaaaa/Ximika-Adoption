@@ -3,6 +3,8 @@ export type CatSource =
   | "adoptapet"
   | "annex"
   | "ths"
+  | "tcr"
+  | "rehome"
   | "petplace"
   | "rescuegroups";
 
@@ -91,4 +93,5 @@ export const DEFAULT_PREFERENCES: UserPreferences = {
 export const LOCAL_SHELTERS = new Set([
   "toronto humane society",
   "annex cat rescue",
+  "toronto cat rescue",
 ]);

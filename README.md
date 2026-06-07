@@ -74,24 +74,37 @@ npm run scrape:annex
 npm run scrape:ths
 ```
 
-### 5. Deploy to Vercel
+### 5. Deploy to Vercel (no terminal)
 
-```bash
-npm i -g vercel
-vercel --cwd apps/web
-```
+1. Open [vercel.com/new](https://vercel.com/new) and sign in with GitHub.
+2. Import **Adinaaaaa/Ximika-Adoption**.
+3. Set **Root Directory** to `apps/web` (Edit → Root Directory → `apps/web`).
+4. Under **Environment Variables**, add (copy from your Supabase dashboard or `apps/web/.env.local`):
 
-Set environment variables in the Vercel dashboard (same as `.env.local`).
+   | Name | Value |
+   |---|---|
+   | `NEXT_PUBLIC_SUPABASE_URL` | `https://qrsytlmopzmwkhpxfuim.supabase.co` |
+   | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | your publishable/anon key |
+   | `SUPABASE_SERVICE_ROLE_KEY` | your secret/service role key |
 
-### 6. Daily auto-refresh (GitHub Actions)
+5. Click **Deploy**. Vercel gives you a URL like `https://ximika-adoption.vercel.app` — bookmark it.
 
-Add these secrets to your GitHub repo:
+Every push to `main` redeploys automatically. You never need `npm run dev` again unless you are editing code.
 
-- `NEXT_PUBLIC_SUPABASE_URL`
-- `SUPABASE_SERVICE_ROLE_KEY`
-- `RESCUEGROUPS_API_KEY` (optional)
+### 6. Daily auto-refresh (GitHub Actions, no terminal)
 
-The workflow in [.github/workflows/scrape.yml](.github/workflows/scrape.yml) runs daily at 8 AM Toronto time.
+So cat listings stay fresh without running scrapers locally:
+
+1. GitHub → **Adinaaaaa/Ximika-Adoption** → **Settings** → **Secrets and variables** → **Actions** → **New repository secret**
+2. Add:
+
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `SUPABASE_SERVICE_ROLE_KEY`
+   - `RESCUEGROUPS_API_KEY` (optional)
+
+3. **Actions** tab → **Daily Cat Scrape** → **Run workflow** (once, to test).
+
+The workflow in [.github/workflows/scrape.yml](.github/workflows/scrape.yml) runs daily at 8 AM Toronto time after that.
 
 ## Auto-push to GitHub
 

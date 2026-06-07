@@ -1,5 +1,7 @@
 # Cat Adoption Matcher
 
+Repository: [github.com/Adinaaaaa/Ximika-Adoption](https://github.com/Adinaaaaa/Ximika-Adoption)
+
 A personal web app that aggregates adoptable cats from multiple Toronto-area sources, filters them to your ideal profile, and ranks matches with direct profile links.
 
 ## Your ideal cat profile

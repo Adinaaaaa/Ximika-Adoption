@@ -1,5 +1,6 @@
 {
   "installCommand": "cd ../.. && npm install",
   "buildCommand": "cd ../.. && npm run build -w @cat-matcher/shared && npm run build -w apps/web",
+  "outputDirectory": ".next",
   "framework": "nextjs"
 }

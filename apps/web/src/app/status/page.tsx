@@ -10,7 +10,7 @@ export default async function StatusPage() {
   ]);
 
   const showSetupHint =
-    diagnostics.needsServiceRoleKey && cats.length === 0 && runs.length === 0;
+    !diagnostics.configured || (cats.length === 0 && runs.length === 0);
 
   return (
     <div className="space-y-6">
@@ -23,12 +23,11 @@ export default async function StatusPage() {
 
       {showSetupHint && (
         <div className="rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm space-y-2">
-          <p className="font-medium text-amber-900">Supabase is connected but can&apos;t read data</p>
+          <p className="font-medium text-amber-900">Supabase isn&apos;t connected on Vercel</p>
           <p className="text-amber-800">
-            Add <code className="bg-amber-100 px-1 rounded">SUPABASE_SERVICE_ROLE_KEY</code> in
-            Vercel → Settings → Environment Variables (copy from Supabase → Project Settings →
-            API), then redeploy. Your database already has scraped cats — they&apos;ll appear
-            immediately after redeploy.
+            Add <code className="bg-amber-100 px-1 rounded">NEXT_PUBLIC_SUPABASE_URL</code> and{" "}
+            <code className="bg-amber-100 px-1 rounded">NEXT_PUBLIC_SUPABASE_ANON_KEY</code> in
+            Vercel → Settings → Environment Variables → Production, then redeploy.
           </p>
         </div>
       )}

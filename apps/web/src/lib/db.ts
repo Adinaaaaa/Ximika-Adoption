@@ -1,20 +1,37 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import type { CatRecord, UserPreferences } from "@cat-matcher/shared";
 import { DEFAULT_PREFERENCES } from "@cat-matcher/shared";
 
-function getSupabase() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
-  const key = (
-    process.env.SUPABASE_SERVICE_ROLE_KEY ??
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  )?.trim();
+function supabaseUrl() {
+  return process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() ?? "";
+}
 
+/** Public reads — avoids a bad service-role key blocking the whole app. */
+function getReadClient(): SupabaseClient | null {
+  const url = supabaseUrl();
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
   if (!url || !key) return null;
   return createClient(url, key);
 }
 
+/** Writes (preference updates) — needs service role when RLS has no update policy. */
+function getWriteClient(): SupabaseClient | null {
+  const url = supabaseUrl();
+  const key = (
+    process.env.SUPABASE_SERVICE_ROLE_KEY ??
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  )?.trim();
+  if (!url || !key) return null;
+  return createClient(url, key);
+}
+
+/** @deprecated use getReadClient or getWriteClient */
+function getSupabase() {
+  return getReadClient();
+}
+
 export async function fetchActiveCats(): Promise<CatRecord[]> {
-  const supabase = getSupabase();
+  const supabase = getReadClient();
   if (!supabase) return [];
 
   const { data, error } = await supabase
@@ -32,7 +49,7 @@ export async function fetchActiveCats(): Promise<CatRecord[]> {
 }
 
 export async function fetchPreferences(): Promise<UserPreferences> {
-  const supabase = getSupabase();
+  const supabase = getReadClient();
   if (!supabase) return DEFAULT_PREFERENCES;
 
   const { data, error } = await supabase
@@ -46,7 +63,7 @@ export async function fetchPreferences(): Promise<UserPreferences> {
 }
 
 export async function savePreferences(prefs: UserPreferences): Promise<boolean> {
-  const supabase = getSupabase();
+  const supabase = getWriteClient();
   if (!supabase) return false;
 
   const { error } = await supabase
@@ -58,7 +75,7 @@ export async function savePreferences(prefs: UserPreferences): Promise<boolean> 
 }
 
 export async function fetchStats() {
-  const supabase = getSupabase();
+  const supabase = getReadClient();
   if (!supabase) {
     return { total: 0, bySource: {}, lastRefresh: null };
   }
@@ -87,7 +104,7 @@ export async function fetchStats() {
 }
 
 export async function fetchScrapeRuns() {
-  const supabase = getSupabase();
+  const supabase = getReadClient();
   if (!supabase) return [];
 
   const { data } = await supabase
@@ -100,12 +117,13 @@ export async function fetchScrapeRuns() {
 }
 
 export function getConnectionDiagnostics() {
-  const usingServiceRole = Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY);
+  const readClient = getReadClient();
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY?.trim() ?? "";
   return {
-    configured: Boolean(getSupabase()),
-    usingServiceRole,
-    needsServiceRoleKey: !usingServiceRole,
+    configured: Boolean(readClient),
+    usingServiceRoleForReads: false,
+    hasServiceRoleForWrites: serviceKey.startsWith("sb_secret_"),
   };
 }
 
-export { getSupabase };
+export { getSupabase, getReadClient, getWriteClient };

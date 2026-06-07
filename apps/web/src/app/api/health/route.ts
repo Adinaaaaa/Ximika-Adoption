@@ -18,7 +18,7 @@ export async function GET() {
     },
     fix:
       cats.length === 0
-        ? "Add SUPABASE_SERVICE_ROLE_KEY (starts with sb_secret_) in Vercel → Settings → Environment Variables → Production, then redeploy. Or run migration 004_public_read_policies.sql in Supabase SQL Editor."
+        ? "Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in Vercel → Environment Variables → Production, then redeploy."
         : null,
   });
 }

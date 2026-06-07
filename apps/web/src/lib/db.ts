@@ -98,4 +98,13 @@ export async function fetchScrapeRuns() {
   return data ?? [];
 }
 
+export function getConnectionDiagnostics() {
+  const usingServiceRole = Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY);
+  return {
+    configured: Boolean(getSupabase()),
+    usingServiceRole,
+    needsServiceRoleKey: !usingServiceRole,
+  };
+}
+
 export { getSupabase };

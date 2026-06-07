@@ -1,9 +1,16 @@
-import { fetchScrapeRuns } from "@/lib/db";
+import { fetchScrapeRuns, fetchActiveCats, getConnectionDiagnostics } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 
 export default async function StatusPage() {
-  const runs = await fetchScrapeRuns();
+  const [runs, cats, diagnostics] = await Promise.all([
+    fetchScrapeRuns(),
+    fetchActiveCats(),
+    Promise.resolve(getConnectionDiagnostics()),
+  ]);
+
+  const showSetupHint =
+    diagnostics.needsServiceRoleKey && cats.length === 0 && runs.length === 0;
 
   return (
     <div className="space-y-6">
@@ -13,6 +20,18 @@ export default async function StatusPage() {
           Scrape runs from the daily GitHub Actions workflow.
         </p>
       </div>
+
+      {showSetupHint && (
+        <div className="rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm space-y-2">
+          <p className="font-medium text-amber-900">Supabase is connected but can&apos;t read data</p>
+          <p className="text-amber-800">
+            Add <code className="bg-amber-100 px-1 rounded">SUPABASE_SERVICE_ROLE_KEY</code> in
+            Vercel → Settings → Environment Variables (copy from Supabase → Project Settings →
+            API), then redeploy. Your database already has scraped cats — they&apos;ll appear
+            immediately after redeploy.
+          </p>
+        </div>
+      )}
 
       {runs.length === 0 ? (
         <p className="text-muted">No scrape runs recorded yet.</p>

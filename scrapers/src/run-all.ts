@@ -1,4 +1,8 @@
-import "dotenv/config";
+import dotenv from "dotenv";
+import path from "path";
+
+// Load .env from project root (not scrapers/)
+dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 import type { CatSource } from "@cat-matcher/shared";
 import { scrapeAnnex } from "./annex";
 import { scrapeThs } from "./ths";

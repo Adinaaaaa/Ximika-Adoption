@@ -67,21 +67,21 @@ describe("match engine", () => {
     assert.equal(passesHardFilters(fiv, DEFAULT_PREFERENCES).pass, false);
   });
 
-  it("excludes cats under 6 years", () => {
+  it("allows cats under 6 years", () => {
     const young = {
       ...baseCat,
       url: "https://example.com/young",
       age: "2 Years 2 Months",
     };
-    assert.equal(passesHardFilters(young, DEFAULT_PREFERENCES).pass, false);
+    assert.equal(passesHardFilters(young, DEFAULT_PREFERENCES).pass, true);
   });
 
-  it("allows cats 6 years and older", () => {
+  it("excludes cats 6 years and older", () => {
     const mature = {
       ...baseCat,
       url: "https://example.com/mature",
       age: "8 Years 9 Months",
     };
-    assert.equal(passesHardFilters(mature, DEFAULT_PREFERENCES).pass, true);
+    assert.equal(passesHardFilters(mature, DEFAULT_PREFERENCES).pass, false);
   });
 });

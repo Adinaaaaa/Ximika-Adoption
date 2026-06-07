@@ -28,23 +28,18 @@ export function parseAgeYears(age?: string | null): number | null {
   return null;
 }
 
-export function isUnderMinAge(
+/** Returns true if cat is at or over max age (should be excluded). */
+export function isOverMaxAge(
   age?: string | null,
-  minYears = 6
+  maxYears = 6
 ): boolean | null {
   const years = parseAgeYears(age);
-  if (years !== null) return years < minYears;
+  if (years !== null) return years >= maxYears;
 
   if (!age) return null;
 
   const lower = age.toLowerCase();
-  if (
-    lower.includes("kitten") ||
-    lower.includes("baby") ||
-    /\byoung\b/.test(lower)
-  ) {
-    return true;
-  }
+  if (lower.includes("senior")) return true;
 
   return null;
 }

@@ -1,6 +1,6 @@
 import type { CatRecord, MatchResult, UserPreferences } from "./types";
 import { LOCAL_SHELTERS } from "./types";
-import { isUnderMinAge } from "./age";
+import { isOverMaxAge, parseAgeYears } from "./age";
 
 const QUIET_KEYWORDS = [
   "quiet",
@@ -93,12 +93,12 @@ export function passesHardFilters(
     return { pass: false, reason: "Long-haired cat" };
   }
 
-  if (prefs.min_age_years > 0) {
-    const tooYoung = isUnderMinAge(cat.age, prefs.min_age_years);
-    if (tooYoung === true) {
+  if (prefs.max_age_years > 0) {
+    const tooOld = isOverMaxAge(cat.age, prefs.max_age_years);
+    if (tooOld === true) {
       return {
         pass: false,
-        reason: `Under ${prefs.min_age_years} years old`,
+        reason: `${prefs.max_age_years} years or older`,
       };
     }
   }
@@ -179,15 +179,14 @@ export function scoreCat(
     }
   }
 
-  const ageLower = (cat.age ?? "").toLowerCase();
-  if (
-    ageLower.includes("senior") ||
-    ageLower.includes("year") ||
-    ageLower.includes("adult")
-  ) {
-    if (!ageLower.includes("month") || parseInt(ageLower) >= 12) {
+  if (prefs.max_age_years > 0) {
+    const years = parseAgeYears(cat.age);
+    if (years !== null && years < prefs.max_age_years) {
       score += 10;
-      reasons.push("Adult or senior");
+      reasons.push("Under max age");
+    }
+    if (years !== null && years >= prefs.max_age_years) {
+      score -= 20;
     }
   }
 
@@ -197,8 +196,8 @@ export function scoreCat(
   }
 
   if (
-    prefs.min_age_years > 0 &&
-    isUnderMinAge(cat.age, prefs.min_age_years) === null
+    prefs.max_age_years > 0 &&
+    isOverMaxAge(cat.age, prefs.max_age_years) === null
   ) {
     score -= 15;
     return {

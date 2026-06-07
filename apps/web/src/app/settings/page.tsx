@@ -83,22 +83,22 @@ export default function SettingsPage() {
             onChange={() => toggle("exclude_long_hair")}
           />
           <label className="block py-1">
-            <span className="text-sm">Minimum age (years)</span>
+            <span className="text-sm">Maximum age (years)</span>
             <input
               type="number"
               min={0}
               max={20}
-              value={prefs.min_age_years}
+              value={prefs.max_age_years}
               onChange={(e) =>
                 setPrefs((p) => ({
                   ...p,
-                  min_age_years: Number(e.target.value),
+                  max_age_years: Number(e.target.value),
                 }))
               }
               className="mt-1 w-full border border-border rounded-lg px-3 py-2 bg-card"
             />
             <span className="text-xs text-muted">
-              Cats under this age are excluded (0 = no minimum)
+              Only cats under this age (0 = no maximum)
             </span>
           </label>
           <Toggle

@@ -76,7 +76,7 @@ INSERT INTO user_preferences (is_default, preferences) VALUES (TRUE, '{
   "exclude_special_needs": true,
   "exclude_aggression_history": true,
   "exclude_long_hair": true,
-  "min_age_years": 6,
+  "max_age_years": 6,
   "prefer_quiet": true,
   "prefer_well_socialized": true,
   "prefer_affectionate": true,

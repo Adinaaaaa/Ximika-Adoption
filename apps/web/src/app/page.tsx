@@ -19,9 +19,10 @@ export default async function HomePage() {
       <section>
         <h1 className="text-3xl font-bold mb-2">Find your match</h1>
         <p className="text-muted max-w-2xl">
-          Quiet, affectionate, solo-adoptable cats aged 6+ within ~2 hours of
-          Spadina Station. Long-haired, under-6, FIV+, special-needs, and
-          bonded pairs are automatically excluded.
+          Quiet, affectionate, solo-adoptable cats under 6 years old within ~2
+          hours of
+          Spadina Station. Long-haired, cats 6+, FIV+, special-needs, and bonded
+          pairs are automatically excluded.
         </p>
       </section>
 

@@ -10,7 +10,7 @@ A personal web app that aggregates adoptable cats from multiple Toronto-area sou
 - Solo-adoptable (no buddy/bonded pairs)
 - Not FIV+, no special care needed
 - **Not long-haired**
-- **At least 6 years old**
+- **Under 6 years old**
 - Within ~2 hours drive of Spadina Station (M5S 2M6)
 
 ## Sources

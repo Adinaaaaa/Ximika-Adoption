@@ -53,7 +53,7 @@ export interface UserPreferences {
   exclude_special_needs: boolean;
   exclude_aggression_history: boolean;
   exclude_long_hair: boolean;
-  min_age_years: number;
+  max_age_years: number;
   prefer_quiet: boolean;
   prefer_well_socialized: boolean;
   prefer_affectionate: boolean;
@@ -79,7 +79,7 @@ export const DEFAULT_PREFERENCES: UserPreferences = {
   exclude_special_needs: true,
   exclude_aggression_history: true,
   exclude_long_hair: true,
-  min_age_years: 6,
+  max_age_years: 6,
   prefer_quiet: true,
   prefer_well_socialized: true,
   prefer_affectionate: true,

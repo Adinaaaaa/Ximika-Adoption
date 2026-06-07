@@ -91,6 +91,14 @@ npm run scrape:ths
 
 Every push to `main` redeploys automatically. You never need `npm run dev` again unless you are editing code.
 
+#### Troubleshooting Vercel
+
+| What you see | Cause | Fix |
+|---|---|---|
+| `DEPLOYMENT_NOT_FOUND` on `*.vercel.app` | No successful production deploy is linked to that URL | Vercel → project → **Deployments** → open the latest build. If it failed, fix the error and **Redeploy**. If it succeeded, click **⋯ → Promote to Production**. |
+| “Authentication Required” / Vercel login wall | **Deployment Protection** is on (common on new Hobby projects) | Vercel → project → **Settings** → **Deployment Protection** → set **Production** to **None** (or “Only Preview Deployments” if you only want previews locked). Save, then redeploy. |
+| Site loads but “No cats loaded yet” | Env vars missing or scrapers haven’t run | Add the three Supabase env vars in Vercel → **Settings** → **Environment Variables**, redeploy, then run **Daily Cat Scrape** in GitHub Actions. |
+
 ### 6. Daily auto-refresh (GitHub Actions, no terminal)
 
 So cat listings stay fresh without running scrapers locally:

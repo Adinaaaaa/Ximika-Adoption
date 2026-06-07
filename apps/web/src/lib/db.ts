@@ -3,10 +3,11 @@ import type { CatRecord, UserPreferences } from "@cat-matcher/shared";
 import { DEFAULT_PREFERENCES } from "@cat-matcher/shared";
 
 function getSupabase() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const key =
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+  const key = (
     process.env.SUPABASE_SERVICE_ROLE_KEY ??
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  )?.trim();
 
   if (!url || !key) return null;
   return createClient(url, key);

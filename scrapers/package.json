@@ -1,0 +1,22 @@
+{
+  "name": "scrapers",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "scrape": "tsx src/run-all.ts",
+    "scrape:annex": "tsx src/run-all.ts --source=annex",
+    "scrape:ths": "tsx src/run-all.ts --source=ths"
+  },
+  "dependencies": {
+    "@cat-matcher/shared": "*",
+    "@supabase/supabase-js": "^2.49.1",
+    "cheerio": "^1.0.0",
+    "dotenv": "^16.4.7",
+    "playwright": "^1.50.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.3"
+  }
+}

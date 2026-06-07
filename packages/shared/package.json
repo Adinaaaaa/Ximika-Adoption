@@ -1,0 +1,16 @@
+{
+  "name": "@cat-matcher/shared",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "node --import tsx --test src/match-engine.test.ts"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.3"
+  }
+}
